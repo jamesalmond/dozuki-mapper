@@ -6,14 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "dozuki-mapper"
   s.version     = Dozuki::Mapper::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.name        = "dozuki"
-  s.version     = Dozuki::VERSION
-  s.platform    = Gem::Platform::RUBY
   s.authors     = ["James Almond"]
   s.email       = ["james@jamesalmond.com"]
   s.homepage    = "https://github.com/jamesalmond/dozuki-mapper"
-  s.summary     = %q{A DSL for mapping API output to object}
-  s.description = %q{A DSL for mapping API output to object}
+  s.summary     = %q{A DSL for mapping API output to objects}
+  s.description = %q{A DSL for mapping API output to objects}
 
   s.rubyforge_project = "dozuki-mapper"
 
