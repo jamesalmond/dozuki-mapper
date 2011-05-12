@@ -1,7 +1,7 @@
 Given /^I have an person with name, address and post_code$/ do
   class Person
     include Dozuki::Mapper
-    attr_accessor :name, :address, :person
+    attr_accessor :name, :address, :post_code
   end
 end
 
