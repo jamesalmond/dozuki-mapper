@@ -24,10 +24,10 @@ It's built using the [dozuki gem](https://github.com/jamesalmond/dozuki)
     </person>
     }
 
-    @doc = Dozuki::XML.parse(@xml)
+    doc = Dozuki::XML.parse(xml)
 
-    @person = Person.new
-    @person.map_from(@doc.get('/person')) do |map|
+    person = Person.new
+    person.map_from(doc.get('/person')) do |map|
       map.string :name
       map.string :address
       map.string :post_code
