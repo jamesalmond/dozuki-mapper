@@ -6,16 +6,26 @@ Gem::Specification.new do |s|
   s.name        = "dozuki-mapper"
   s.version     = Dozuki::Mapper::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.name        = "dozuki"
+  s.version     = Dozuki::VERSION
+  s.platform    = Gem::Platform::RUBY
+  s.authors     = ["James Almond"]
+  s.email       = ["james@jamesalmond.com"]
+  s.homepage    = "https://github.com/jamesalmond/dozuki-mapper"
+  s.summary     = %q{A DSL for mapping API output to object}
+  s.description = %q{A DSL for mapping API output to object}
 
   s.rubyforge_project = "dozuki-mapper"
 
   s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.test_files    = `git ls-files -- {spec,features}/* .autotest`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+
+  s.add_dependency("dozuki")
+
+  s.add_development_dependency("rspec")
+  s.add_development_dependency("cucumber")
+  s.add_development_dependency("autotest")
+  s.add_development_dependency("rake")
 end
