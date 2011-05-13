@@ -56,25 +56,25 @@ module Dozuki
         end
       end
       
-      describe "date" do
+      describe "float" do
         let(:receiver){ TestClass.new }
         let(:node) { mock :node}
         let(:method_name){:field}
-        let(:date) { Date.new(2012, 5, 3) }
+        let(:float) { 503.0 }
 
         before do
-          node.stub(:date).and_return(date)
+          node.stub(:float).and_return(float)
         end
 
-        subject { Proxy.new(receiver, node).date(method_name) }
-        it "should get the field from the node using the xpath ./field as an date" do
-          node.should_receive(:date).with('./field').and_return(date)
+        subject { Proxy.new(receiver, node).float(method_name) }
+        it "should get the field from the node using the xpath ./field as an float" do
+          node.should_receive(:float).with('./field').and_return(float)
           subject
         end
 
-        it "should set the field on the receiver with the date" do
+        it "should set the field on the receiver with the float" do
           subject
-          receiver.field.should == date
+          receiver.field.should == float
         end
       end
 

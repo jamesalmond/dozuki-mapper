@@ -20,6 +20,10 @@ module Dozuki
         self.receiver.send("#{attribute}=", node.date("./#{attribute}"))
       end
 
+      def float(attribute)
+        self.receiver.send("#{attribute}=", node.float("./#{attribute}"))
+      end
+
     end
   end
 end
