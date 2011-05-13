@@ -16,6 +16,10 @@ module Dozuki
         self.receiver.send("#{attribute}=", node.int("./#{attribute}"))
       end
 
+      def date(attribute)
+        self.receiver.send("#{attribute}=", node.date("./#{attribute}"))
+      end
+
     end
   end
 end

@@ -54,7 +54,28 @@ module Dozuki
           subject
           receiver.field.should == int
         end
+      end
+      
+      describe "date" do
+        let(:receiver){ TestClass.new }
+        let(:node) { mock :node}
+        let(:method_name){:field}
+        let(:date) { Date.new(2012, 5, 3) }
 
+        before do
+          node.stub(:date).and_return(date)
+        end
+
+        subject { Proxy.new(receiver, node).date(method_name) }
+        it "should get the field from the node using the xpath ./field as an date" do
+          node.should_receive(:date).with('./field').and_return(date)
+          subject
+        end
+
+        it "should set the field on the receiver with the date" do
+          subject
+          receiver.field.should == date
+        end
       end
 
     end
