@@ -3,13 +3,6 @@ module Dozuki
   module Mapper
     describe Proxy do
       class TestClass < Struct.new(:field); end
-      describe "initialization" do
-        let(:receiver){ mock :receiver }
-        let(:node){ mock :node }
-        subject { Proxy.new(receiver, node)}
-        its(:receiver){ should == receiver }
-        its(:node) { should == node }
-      end
 
       describe "string" do
         let(:receiver){ TestClass.new }
@@ -76,6 +69,37 @@ module Dozuki
           subject
           receiver.field.should == float
         end
+      end
+
+
+      describe "node" do
+        let(:node) { mock :node }
+        let(:receiver){ TestClass.new }
+        let(:method_name){ :field }
+        let(:node) { mock :node }
+        let(:other_class) { mock :class }
+        let(:new_object) { mock :new_object }
+
+        before do
+          node.stub(:get).and_return(node)
+          other_class.stub(:from_node).and_return(new_object)
+        end
+
+        subject { Proxy.new(receiver, node).node(method_name, :as => other_class) }
+
+        it "should get the node from the receiver using the ./field xpath" do
+          node.should_receive(:get).with('./field').and_return(node)
+          subject
+        end
+        it "should create a new instance of the other class suing from_node" do
+          other_class.should_receive(:from_node).with(node).and_return(new_object)
+          subject
+        end
+        it "should set the new object to the field" do
+          subject
+          receiver.field.should == new_object
+        end
+
       end
 
     end

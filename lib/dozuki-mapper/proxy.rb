@@ -1,27 +1,31 @@
 module Dozuki
   module Mapper
     class Proxy
-      attr_accessor :receiver, :node
+      attr_accessor :receiver, :from_node
 
       def initialize(receiver, node)
         self.receiver = receiver
-        self.node = node
+        self.from_node = node
       end
 
       def string(attribute)
-        self.receiver.send("#{attribute}=", node.string("./#{attribute}"))
+        self.receiver.send("#{attribute}=", from_node.string("./#{attribute}"))
       end
 
       def int(attribute)
-        self.receiver.send("#{attribute}=", node.int("./#{attribute}"))
+        self.receiver.send("#{attribute}=", from_node.int("./#{attribute}"))
       end
 
       def date(attribute)
-        self.receiver.send("#{attribute}=", node.date("./#{attribute}"))
+        self.receiver.send("#{attribute}=", from_node.date("./#{attribute}"))
       end
 
       def float(attribute)
-        self.receiver.send("#{attribute}=", node.float("./#{attribute}"))
+        self.receiver.send("#{attribute}=", from_node.float("./#{attribute}"))
+      end
+
+      def node(attribute, opts={})
+        self.receiver.send("#{attribute}=", opts[:as].from_node(from_node.get("./#{attribute}")))
       end
 
     end
