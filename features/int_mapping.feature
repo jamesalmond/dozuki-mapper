@@ -1,7 +1,7 @@
 Feature: mapping a document with int elements to an object
-  So that I don't have to spend all my time tpying in repetitive XPaths
+  So that I don't have to spend all my time typing in repetitive XPaths
   As an API consumer
-  I want to map a documen to an object
+  I want to map a document to an object
 
 
   Scenario: I have a simple mapping
