@@ -2,7 +2,7 @@ require 'spec_helper'
 module Dozuki
   module Mapper
     describe Proxy do
-      class TestClass < Struct.new(:field); end
+      class TestClass < Struct.new(:field, :fields); end
 
       describe "string" do
         let(:receiver){ TestClass.new }
@@ -76,7 +76,6 @@ module Dozuki
         let(:node) { mock :node }
         let(:receiver){ TestClass.new }
         let(:method_name){ :field }
-        let(:node) { mock :node }
         let(:other_class) { mock :class }
         let(:new_object) { mock :new_object }
 
@@ -99,7 +98,34 @@ module Dozuki
           subject
           receiver.field.should == new_object
         end
+      end
 
+      describe "each" do
+        let(:node) { mock :node }
+        let(:receiver){ TestClass.new(nil, []) }
+        let(:other_class){ mock :other_class }
+        let(:new_object) { mock :new_object }
+        let(:field){ mock :field }
+
+        before do
+          node.stub(:each).and_yield(field)
+          other_class.stub(:from_node).and_return(new_object)
+        end
+
+        subject { Proxy.new(receiver, node).each(:field, :as => other_class, :to => :fields)}
+
+        it "should get each field from the node using the ./field xpath" do
+          node.should_receive(:each).with('./field').and_yield(field)
+          subject
+        end
+        it "should create a new instance of the other class using the from_node method" do
+          other_class.should_receive(:from_node).with(field).and_return(new_object)
+          subject
+        end
+        it "should append the object to the as field" do
+          subject
+          receiver.fields.should == [new_object]
+        end
       end
 
     end

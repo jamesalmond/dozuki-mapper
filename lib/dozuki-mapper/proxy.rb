@@ -28,6 +28,12 @@ module Dozuki
         self.receiver.send("#{attribute}=", opts[:as].from_node(from_node.get("./#{attribute}")))
       end
 
+      def each(attribute, opts={})
+        from_node.each("./#{attribute}") do |node|
+          receiver.send(opts[:to]) << opts[:as].from_node(node)
+        end
+      end
+
     end
   end
 end
