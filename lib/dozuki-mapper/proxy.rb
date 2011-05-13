@@ -12,6 +12,10 @@ module Dozuki
         self.receiver.send("#{attribute}=", node.string("./#{attribute}"))
       end
 
+      def int(attribute)
+        self.receiver.send("#{attribute}=", node.int("./#{attribute}"))
+      end
+
     end
   end
 end
