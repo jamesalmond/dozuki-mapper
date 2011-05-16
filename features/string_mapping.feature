@@ -3,6 +3,7 @@ Feature: mapping a document with string elements to an object
   As an API consumer
   I want to map a document to an object
 
+  @string
   Scenario: I have a simple mapping
     Given I have an person with name, address and post_code
     And I have the XML:
