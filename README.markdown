@@ -48,7 +48,7 @@ integer, float, date) to come.
 
 (The MIT License)
 
-Copyright (c) 2010:
+Copyright (c) 2011:
 
 * [James Almond](http://jamesalmond.com)
 
