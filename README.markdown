@@ -54,6 +54,7 @@ integer, float, date) to come.
 * [Float](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/float_mapping.feature)
 * [Int](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/int_mapping.feature)
 * [Date](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/date_mapping.feature)
+* [Boolean](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/boolean_mapping.feature)
 
 ## Mapping object hierarchies
 
