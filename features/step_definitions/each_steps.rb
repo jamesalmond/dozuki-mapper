@@ -12,23 +12,20 @@ Given /^I have a colour class with description and hex and a from_node method$/ 
   class Colour
     include Dozuki::Mapper
     attr_accessor :description, :hex
-    def self.from_node(node)
-      new.tap do |colour|
-        colour.map_from(node) do |map|
-          map.string :description
-          map.string :hex
-        end
-      end
+    map_with do |map|
+      map.string :description
+      map.string :hex
     end
   end
 end
 
 When /^I map the car node to a car object with:$/ do |string|
-  @car = Car.new
-  @doc = Dozuki::XML.parse(@xml)
-  @car.map_from(@doc.get('/car')) do |map|
-    eval(string)
-  end
+  Car.instance_eval %Q{
+    map_with do |map|
+      #{string}
+    end
+  }
+  @car = Car.from_node(@doc.get('/car'))
 end
 
 Then /^the car should have a brand of "([^"]*)"$/ do |brand|

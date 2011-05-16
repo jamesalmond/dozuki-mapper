@@ -6,15 +6,16 @@ Given /^I have an person with name, address and post_code$/ do
 end
 
 Given /^I have the XML:$/ do |string|
-  @xml = string
+  @doc = Dozuki::XML.parse(string)
 end
 
 When /^I map the person node to a person object with:$/ do |string|
-  @person = Person.new
-  @doc = Dozuki::XML.parse(@xml)
-  @person.map_from(@doc.get('/person')) do |map|
-    eval(string)
-  end
+  Person.instance_eval %Q{
+    map_with do |map|
+     #{string}
+    end
+  }
+  @person = Person.from_node(@doc.get('/person'))
 end
 
 Then /^the person should have the (.*) "([^"]*)"$/ do |field, string|

@@ -10,10 +10,11 @@ Then /^the shop should have (\d+) (.*)$/ do |count, field|
 end
 
 When /^I map the shop node to a shop object with:$/ do |string|
-  @shop = Shop.new
-  @doc = Dozuki::XML.parse(@xml)
-  @shop.map_from(@doc.get('/shop')) do |map|
-    eval(string)
-  end
+  Shop.instance_eval %Q{
+    map_with do |map|
+      #{string}
+    end
+  }
+  @shop = Shop.from_node(@doc.get('/shop'))
 end
 

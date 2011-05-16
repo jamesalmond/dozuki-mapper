@@ -6,11 +6,12 @@ Given /^I have an event with start_date, end_date and sold_out$/ do
 end
 
 When /^I map the event node to an event object with:$/ do |string|
-  @event = Event.new
-  @doc = Dozuki::XML.parse(@xml)
-  @event.map_from(@doc.get('/event')) do |map|
-    eval(string)
-  end
+  Event.instance_eval %Q{
+    map_with do |map|
+      #{string}
+    end
+  }
+  @event = Event.from_node(@doc.get('/event'))
 end
 
 Then /^the event should have a (.*) of (\d+)\/(\d+)\/(\d+)$/ do |field, day, month, year|

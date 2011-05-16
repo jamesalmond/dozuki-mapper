@@ -9,23 +9,20 @@ Given /^I have a dimensions class with width, depth and a from_node class method
   class Dimensions
     include Dozuki::Mapper
     attr_accessor :width, :depth
-    def self.from_node(node)
-      new.tap do |dimensions|
-        dimensions.map_from(node) do |mapper|
-          mapper.int :width
-          mapper.int :depth
-        end
-      end
+    map_with do |map|
+      map.int :width
+      map.int :depth
     end
   end
 end
 
 When /^I map the plot node to a plot object with:$/ do |string|
-  @plot = Plot.new
-  @doc = Dozuki::XML.parse(@xml)
-  @plot.map_from(@doc.get('/plot')) do |map|
-    eval(string)
-  end
+  Plot.instance_eval %Q{
+    map_with do |map|
+      #{string}
+    end
+  }
+  @plot = Plot.from_node(@doc.get('/plot'))
 end
 
 Then /^the plot should have a name of "([^"]*)"$/ do |name|
