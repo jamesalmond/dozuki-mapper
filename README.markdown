@@ -1,20 +1,24 @@
 # Dozuki Mapper
 
-An attempt at writing a wrapper for mapping XML structures to objects
+A simple DSL for mapping xml documents directly to user-defined classes.
+Ideal for API parsing.
 
 ## What does it do?
 
-At the moment, not much. WIP. Features can be found in the [features
+You've got an XML API and you want to model the output in Ruby objects,
+parse values to primitives and build a structure. You don't want to write lots of code or XPaths or repeat yourself.
+Dozuki-mapper, built on the Dozuki gem, lets you define the mapping
+between the XML and the objects, but does little more, meaning you
+have control over the definition of your class. It is currently only
+suited to reasonably direct mappings as it's being used to model API
+responses.
+
+Features can be found in the [features
 folder](https://github.com/jamesalmond/dozuki-mapper/tree/master/features).
 
 It's built using the [dozuki gem](https://github.com/jamesalmond/dozuki)
 
 # How do I use it?
-
-    class Person
-      include Dozuki::Mapper
-      attr_accessor :name, :address, :post_code
-    end
 
     xml = %Q{
     <person>
@@ -24,17 +28,73 @@ It's built using the [dozuki gem](https://github.com/jamesalmond/dozuki)
     </person>
     }
 
+    class Person
+      include Dozuki::Mapper
+
+      attr_accessor :name, :address, :post_code
+
+      map_with do |map|
+        map.string :name
+        map.string :address
+        map.string :post_code
+      end
+    end
+
+
     doc = Dozuki::XML.parse(xml)
 
-    person = Person.new
-    person.map_from(doc.get('/person')) do |map|
-      map.string :name
-      map.string :address
-      map.string :post_code
-    end
+    person = Person.from_node(doc.get('./person')
 
 Setting the relevant fields on the person object. More conversions (e.g.
 integer, float, date) to come.
+
+## Mapping data types
+
+* [String](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/string_mapping.feature)
+* [Float](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/float_mapping.feature)
+* [Int](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/int_mapping.feature)
+* [Date](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/date_mapping.feature)
+
+## Mapping object hierarchies
+
+
+* [Mapping nodes](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/node_mapping.feature)
+
+Example:
+
+    xml = %Q{
+      <plot>
+        <name>Tiny Plot</name>
+        <dimensions>
+          <width>100</width>
+          <depth>200</depth>
+        </dimensions>
+      </plot>
+    }
+
+    class Plot
+      include Dozuki::Mapper
+      attr_accessor :name, :dimensions
+      map_with do |map|
+        map.string :name
+        map.node :dimensions, :as => Dimensions
+      end
+    end
+
+    class Dimensions
+      include Dozuki::Mapper
+      attr_accessor :width, :height
+      map_with do |map|
+        map.int :width
+        map.int :height
+      end
+    end
+
+
+## Mapping collections
+
+* [Mapping each](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/each_mapping.feature)
+
 
 ## Contributing to Dozuki Mapper
  
