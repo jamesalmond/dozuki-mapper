@@ -48,8 +48,8 @@ module Dozuki
           receiver.field.should == int
         end
       end
-      
-      describe "float" do
+
+      describe "float" do 
         let(:receiver){ TestClass.new }
         let(:node) { mock :node}
         let(:method_name){:field}
@@ -71,6 +71,26 @@ module Dozuki
         end
       end
 
+      describe "boolean" do 
+        let(:receiver){ TestClass.new }
+        let(:node) { mock :node}
+        let(:method_name){:field}
+
+        before do
+          node.stub(:boolean).and_return(true)
+        end
+
+        subject { Proxy.new(receiver, node).boolean(method_name) }
+        it "should get the field from the node using the xpath ./field as a boolean" do
+          node.should_receive(:boolean).with('./field').and_return(boolean)
+          subject
+        end
+
+        it "should set the field on the receiver with the boolean" do
+          subject
+          receiver.field.should == true
+        end
+      end
 
       describe "node" do
         let(:node) { mock :node }

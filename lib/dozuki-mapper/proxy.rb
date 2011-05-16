@@ -24,6 +24,10 @@ module Dozuki
         self.receiver.send("#{attribute}=", from_node.float("./#{attribute}"))
       end
 
+      def boolean(attribute)
+        self.receiver.send("#{attribute}=", from_node.boolean("./#{attribute}"))
+      end
+
       def node(attribute, opts={})
         self.receiver.send("#{attribute}=", opts[:as].from_node(from_node.get("./#{attribute}")))
       end
