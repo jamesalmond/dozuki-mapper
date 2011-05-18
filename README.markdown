@@ -97,6 +97,11 @@ Example:
 * [Mapping each](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/each_mapping.feature)
 
 
+## Testing your matchers
+
+* [with RSpec](https://github.com/jamesalmond/dozuki-mapper/tree/master/features/rspec_matchers.feature)
+
+
 ## Contributing to Dozuki Mapper
  
 * Fork the project.
