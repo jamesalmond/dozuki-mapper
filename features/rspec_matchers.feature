@@ -12,22 +12,36 @@ Feature: Spec matchers
         require 'dozuki-mapper'
         require 'dozuki-mapper/rspec/matchers'
 
-        class Shop
+        class Person
           include Dozuki::Mapper
           map_with do |mapper|
             mapper.string :name
+            mapper.date :dob
+            mapper.boolean :male
+            mapper.int :age
+            mapper.float :bank_balance
+            mapper.node :address, :as => Address
+            mapper.each :child, :as => Person, :to => :children
           end
         end
 
-        describe Shop do
+        class Address; end
+
+        describe Person do
           describe "mappings" do
-            subject { Shop }
+            subject { Person }
             it { should map(:name).to_a(:string) }
+            it { should map(:dob).to_a(:date) }
+            it { should map(:male).to_a(:boolean) }
+            it { should map(:age).to_an(:int) }
+            it { should map(:bank_balance).to_a(:float) }
+            it { should map(:address).to_a(:node).as(Address)}
+            it { should map(:child).to_an(:each).as(Person).to(:children)}
           end
         end
       """
     When I run `rspec matchers/string_spec.rb`
-    Then the output should contain "1 example, 0 failures"
+    Then the output should contain "7 examples, 0 failures"
 
   @matchers
   Scenario: a simple string matcher, that fails
