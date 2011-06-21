@@ -5,9 +5,6 @@ module Dozuki
     def self.included(base)
       base.extend(ClassMethods)
     end
-    def map_from(node)
-      self.class.mapper.call Proxy.new(self, node)
-    end
     module ClassMethods
       def map_with(&blk)
         @mapper = blk
@@ -17,7 +14,7 @@ module Dozuki
       end
       def from_node(node)
         new.tap do |instance|
-          instance.map_from(node)
+          mapper.call Proxy.new(instance, node)
         end
       end
     end
